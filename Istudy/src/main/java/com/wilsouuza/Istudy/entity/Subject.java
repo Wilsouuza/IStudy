@@ -24,7 +24,7 @@ public class Subject {
     private User userId;
 
     @Column(nullable = false, length = 150)
-    private String nome;
+    private String name;
 
     @Column(length = 500)
     private String description;
