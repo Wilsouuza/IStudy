@@ -1,0 +1,42 @@
+### Registrar novo usuário
+POST http://localhost:8080/auth/register
+Content-Type: application/json
+
+{
+  "name": "Wilson Souza",
+  "email": "wilson@teste.com",
+  "password": "senha123"
+}
+
+> {%
+    client.global.set("token", response.body.token);
+%}
+
+### Login
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{
+  "email": "wilson@teste.com",
+  "password": "senha123"
+}
+
+> {%
+    client.global.set("token", response.body.token);
+%}
+
+### Login com senha errada (deve falhar)
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{
+  "email": "wilson@teste.com",
+  "password": "senhaErrada"
+}
+
+### Rota protegida sem token (deve dar 403)
+GET http://localhost:8080/subjects
+
+### Rota protegida com token (usa o token salvo pelas requisições acima)
+GET http://localhost:8080/subjects
+Authorization: Bearer {{token}}
