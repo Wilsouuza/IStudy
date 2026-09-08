@@ -23,12 +23,12 @@ public class StudyLog {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "task_id" , nullable = false)
-    private Task taskId;
+    private Task task;
 
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subject_id", nullable = false)
-    private Subject subjectId;
+    private Subject subject;
 
     @Column(name = "log_date", nullable = false)
     private LocalDate logDate;
