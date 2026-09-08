@@ -1,0 +1,1 @@
+ALTER TABLE goals ALTER COLUMN week_reference DROP NOT NULL;
