@@ -21,7 +21,7 @@ public class Subject {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    private User userId;
+    private User user;
 
     @Column(nullable = false, length = 150)
     private String name;

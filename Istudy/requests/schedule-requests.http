@@ -1,0 +1,84 @@
+### Login (necessário para pegar o token antes de tudo)
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{
+  "email": "wilson@teste.com",
+  "password": "senha123"
+}
+
+> {%
+    client.global.set("token", response.body.token);
+%}
+
+### Criar um cronograma
+POST http://localhost:8080/schedules
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Semana 1 - Reta final",
+  "startDate": "2026-09-08",
+  "endDate": "2026-09-14"
+}
+
+> {%
+    client.global.set("scheduleId", response.body.id);
+%}
+
+### Criar um cronograma sem nome (deve funcionar, name é opcional)
+POST http://localhost:8080/schedules
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "startDate": "2026-09-15",
+  "endDate": "2026-09-21"
+}
+
+### Listar todos os cronogramas do usuário logado
+GET http://localhost:8080/schedules
+Authorization: Bearer {{token}}
+
+### Buscar um cronograma específico pelo id
+GET http://localhost:8080/schedules/{{scheduleId}}
+Authorization: Bearer {{token}}
+
+### Atualizar o cronograma
+PUT http://localhost:8080/schedules/{{scheduleId}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Semana 1 - Reta final (atualizado)",
+  "startDate": "2026-09-08",
+  "endDate": "2026-09-15"
+}
+
+### Deletar o cronograma
+DELETE http://localhost:8080/schedules/{{scheduleId}}
+Authorization: Bearer {{token}}
+
+### Buscar o cronograma deletado (deve dar erro, já que foi removido)
+GET http://localhost:8080/schedules/{{scheduleId}}
+Authorization: Bearer {{token}}
+
+### Criar cronograma sem token (deve dar 403)
+POST http://localhost:8080/schedules
+Content-Type: application/json
+
+{
+  "name": "Sem token",
+  "startDate": "2026-09-08",
+  "endDate": "2026-09-14"
+}
+
+### Criar cronograma sem startDate (deve dar 400, validação do @NotNull)
+POST http://localhost:8080/schedules
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Faltando data de início",
+  "endDate": "2026-09-14"
+}
